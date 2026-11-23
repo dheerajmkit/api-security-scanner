@@ -14,6 +14,7 @@ import sys
 
 from api.loader import load_spec
 from api.checks import check_spec
+from api.probe import probe_spec
 from api.report import summarize, render_text, render_json
 
 
@@ -22,6 +23,8 @@ def main(argv=None):
     parser.add_argument("spec", help="OpenAPI JSON file")
     parser.add_argument("--json", action="store_true",
                         help="emit findings as JSON")
+    parser.add_argument("--probe",
+                        help="live base URL to probe unauthenticated endpoints")
     args = parser.parse_args(argv)
 
     try:
@@ -31,6 +34,12 @@ def main(argv=None):
         return 2
 
     findings = check_spec(spec)
+
+    if args.probe:
+        probe_findings, errors = probe_spec(spec, args.probe)
+        findings.extend(probe_findings)
+        for error in errors:
+            print(f"note: {error}", file=sys.stderr)
 
     if args.json:
         print(render_json(args.spec, findings))

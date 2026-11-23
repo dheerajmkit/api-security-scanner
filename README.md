@@ -15,10 +15,19 @@ No dependencies to install — the standard library is all you need:
 
 ```bash
 python3 run.py samples/petstore-openapi.json
+python3 run.py samples/petstore-openapi.json --probe https://api.acme.example/v1
 ```
 
 Exit codes: `2` = usage error or unreadable spec, `1` = at least one
 high finding, `0` = no high findings.
+
+## Day-2 scope
+
+- Live probing (`--probe <base-url>`): unauthenticated operations
+  are requested without credentials. A 200 response proves the
+  endpoint is genuinely public (`endpoint-public`, HIGH); 401/403
+  confirms auth is enforced. Unreachable endpoints are reported as
+  notes, not findings.
 
 ## Day-1 scope
 
