@@ -21,6 +21,13 @@ python3 run.py samples/petstore-openapi.json --probe https://api.acme.example/v1
 Exit codes: `2` = usage error or unreadable spec, `1` = at least one
 high finding, `0` = no high findings.
 
+## Day-3 scope
+
+- Unit tests (`tests/test_checks.py`): run with
+  `python3 -m unittest discover -s tests -v`.
+- Full usage guide (`docs/USAGE.md`) and a demo script
+  (`examples/run-all.sh`).
+
 ## Day-2 scope
 
 - Live probing (`--probe <base-url>`): unauthenticated operations
